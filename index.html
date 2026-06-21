@@ -18,7 +18,9 @@
         const report = analyzeSalesData(data, {
             calculateRevenue: calculateSimpleRevenue,
             calculateBonus: calculateBonusByProfit
-        });
+        }
+    /*[ бонусы как в примере]*/
+    );
 
         if (console.table) console.table(report);
         else console.log(report);
