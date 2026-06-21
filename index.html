@@ -14,13 +14,10 @@
     <script src="src/main.js"></script>
     <script>
         console.log(data);
-
         const report = analyzeSalesData(data, {
             calculateRevenue: calculateSimpleRevenue,
             calculateBonus: calculateBonusByProfit
-        }
-    /*[ бонусы как в примере]*/
-    );
+        });
 
         if (console.table) console.table(report);
         else console.log(report);

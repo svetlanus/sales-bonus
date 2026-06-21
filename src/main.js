@@ -96,7 +96,7 @@ function analyzeSalesData(data, options) {
   //  Проверка наличия опций
   const { calculateRevenue, calculateBonus } = options; //Сюда передадим функции для расчётов
   if (!calculateRevenue || !calculateBonus) {
-    throw new Error("Чего-то не хватает");
+    throw new Error("Не переданы необходимые функции для расчёта: calculateRevenue или calculateBonus");
   }
   if (
     !data ||
@@ -158,19 +158,16 @@ function analyzeSalesData(data, options) {
 
   //перебрать массив calculateBonus посчитать бонус
   sellerStats.forEach((seller, index) => {
-    seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller); // Считаем бонус
-    //массив пар [sku, количество]
-    const productsArray = Object.entries(seller.products_sold);
-    // Сорт массив по количеству проданных товаров (по убыванию)
-    const sortedProducts = productsArray.sort((a, b) => b[1] - a[1]);
-    //  топ‑10
-    const top10Products = sortedProducts.slice(0, 10);
+    seller.bonus = calculateBonus(index, sellerStats.length, seller); // Считаем бонус
+    const productsArray = Object.entries(seller.products_sold);//массив пар [sku, количество]
+    const sortedProducts = productsArray.sort((a, b) => b[1] - a[1]);// Сорт массив по количеству проданных товаров (по убыванию)
+    const top10Products = sortedProducts.slice(0, 10);//  топ‑10
     seller.top_products = top10Products;
   });
 
-  return finalReport = sellerStats.map(seller => ({
-    seller_id: seller.id, // идентификатор продавца
-    name: seller.name, //  имя продавца
+  return sellerStats.map((seller) => ({
+    seller_id: seller.id,
+    name: seller.name,
     revenue: parseFloat(seller.revenue).toFixed(2),
     profit: parseFloat(seller.profit).toFixed(2),
     sales_count: seller.sales_count,
@@ -180,4 +177,5 @@ function analyzeSalesData(data, options) {
     })),
     bonus: parseFloat(seller.bonus).toFixed(2), // Число с двумя знаками после точки, бонус продавца
   }));
+
 }
