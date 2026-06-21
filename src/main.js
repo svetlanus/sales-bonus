@@ -168,7 +168,7 @@ function analyzeSalesData(data, options) {
     seller.top_products = top10Products;
   });
 
-  return (finalReport = sellerStats.map((seller) => ({
+  return finalReport = sellerStats.map(seller => ({
     seller_id: seller.id, // идентификатор продавца
     name: seller.name, //  имя продавца
     revenue: parseFloat(seller.revenue).toFixed(2),
@@ -179,5 +179,5 @@ function analyzeSalesData(data, options) {
       quantity,
     })),
     bonus: parseFloat(seller.bonus).toFixed(2), // Число с двумя знаками после точки, бонус продавца
-  })));
+  }));
 }
